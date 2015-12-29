@@ -1,0 +1,178 @@
+<html>
+<head>
+  <title>Mapping the Stars</title>
+  <link rel = "stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script src = "leaflet.js"></script>
+  <script src = "Polyline.encoded.js"></script>
+  <script src = "L.Polyline.SnakeAnim.js"></script>
+  <script src = "leaflet-omnivore.js"></script>
+  <script src = "jquery.js"></script>
+  <script src = "jquery-csv.js"></script>
+  <style>
+
+    /*div {
+          margin-top: 1px;
+        } */ 
+
+    #map{ 
+          height: 700px; 
+          width: 100%;
+          width: 100vw; 
+          margin-top: 10px;
+          margin: 0 auto;
+          float: left;
+          margin-top: 0px;
+          margin: 0px;
+        }
+
+    body { 
+          margin: 0px; 
+         }
+
+    #floater{
+              position: absolute; 
+              top: 100px; 
+              margin-left: 0px; 
+              background-color: white; 
+              opacity: 0.75;  
+              height: 400px;
+              width: 250px;
+              color: black;
+              font: courier;
+              float: left;
+              text-align: left;
+              padding: 10px;
+
+            }
+    #drop_down 
+    {
+      position: absolute;
+      top: 500px;
+    }
+
+    #top_right
+    {
+      position: absolute;
+      background-color: white;
+      opacity: 0.80;
+      float: right;
+    }
+
+  </style>
+</head>
+<body>
+  <center><div id = "map"></div></center>
+  <script type = "text/javascript" src = "kis/kis.js"></script>
+  <script>
+
+  var school_icon = L.Icon.extend({
+    options: {
+        iconSize:     [45, 45],
+        iconAnchor:   [15, 15],
+        popupAnchor:  [0, 0]
+    }
+  });
+
+  var ou_icon = new school_icon({iconUrl: 'my_icons/ou_icon.png'});
+  var tx_icon = new school_icon({iconSize: [78, 40], iconAnchor: [35, 30], iconUrl: 'my_icons/texas_icon.png'});
+
+  /* Creating Map */ 
+    var map = L.map("map", {zoomControl: false}).setView([39.00, -100.50], 5);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: "",
+      maxZoom: 9,
+      id: 'elsage.ni57hacg',
+      accessToken: ki_leaflet
+      }).addTo(map);
+  /*             */ 
+
+    L.marker([35.22, -97.44], {icon: ou_icon}).addTo(map);
+    L.marker([30.25, -97.75], {icon: tx_icon}).addTo(map);
+
+  /* LOADING DATA */ 
+    $.ajax({
+    url: "my_data/path_data.csv",
+    async: false,
+    success: function (csvd) {
+        data = $.csv2Array(csvd);
+    },
+    dataType: "text",
+    complete: function () {
+        console.log("YOU DID IT!");
+    }
+    });
+
+  /* Defining variables */
+  var decoded_path = new Array(data.length);
+  var path_array = new Array(data.length);
+  /*              */ 
+
+
+  /* This is used to clear the map before polylines are drawn */ 
+    function clearMap() {
+    for(i in map._layers) {
+        if(map._layers[i]._path != undefined) {
+            try {
+                map.removeLayer(map._layers[i]);
+            }
+            catch(e) {
+                console.log("problem with " + e + map._layers[i]);
+            }
+         }
+      }
+    }
+
+    var dc_path;
+
+    /* Drawing polylines */ 
+    function pull_routes(school_str) {
+      clearMap();
+      //var school_icon = new school_icon({iconUrl: 'my_icons/ou_icon.png'});
+      school_col = "crimson";
+
+      for(i = 0; i < data.length; i++) {
+        if(data[i][2] == school_str) {
+          decoded_path[i] = L.Polyline.fromEncoded(data[i][0]);
+          path_array[i] = new L.Polyline(decoded_path[i].getLatLngs(),
+          {snakingSpeed: 800, snakingPause: 0, color: school_col, opacity: 0.75, weight: 1.00});
+          path_array[i].addTo(map).snakeIn();
+          //sleep(100);
+      };
+
+     }
+
+   }
+    </script>
+
+    <div id = "floater">
+    <h2 id = "stat_header">Statistics</h2>
+    <p id = "median_travel_time"></p>
+    <p id = "num_recruits_rad"></p>
+    <p id = "2015_rank"></p>
+    <p id = "median_travel_time"></p>
+    </div>
+
+    <script id = "output">
+      document.getElementById("median_travel_time").innerHTML = ("Median Travel Time: " + " XX Hours");
+      document.getElementById("num_recruits_rad").innerHTML = ("# of Recruits in 120 Mile Radius:");
+      document.getElementById("2015_rank").innerHTML = ("2015 Class Ranking: ");
+      //document.getElementById("median_travel_time").innerHTML = ("Median Travel Time: " + " XX Hours");
+    </script>
+
+    <div id = "drop_down">
+    <select onchange = "pull_routes(this.value)" style = "width: 268px; padding: 0px; font-size: 24px">
+    <option value = "">Please select a school: </option>
+    <option value = "Tuscaloosa, AL"> University of Alabama </option>
+    <option value = "Norman, OK"> University of Oklahoma </option>
+    <option value = "Austin, TX"> University of Texas </option>
+    </select>
+    </div>
+
+    <div id = "top_right" align = "right"><h2>Routes to the Recruits</h2></div>
+
+    <p><h1>Discussion Starts Here </h1></p>
+
+
+</body>
+</html>
