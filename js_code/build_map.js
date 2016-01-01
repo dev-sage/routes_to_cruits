@@ -76,9 +76,24 @@
           count++;
       } 
      }
+
+      get_statistics_50(school_str);
    };
 
-   function get_statistics(school_str) {
+   function get_statistics_50(school_str) {
+    
+    var count = total_dist = total_dur = 0;
+    var top_num = 50;
 
+    for(i = 0; count < top_num; i++) {
+      if(data[i][2] == school_str) {
+        total_dist += parseInt(data[i][3])  ;
+        total_dur += parseInt(data[i][4]);
+        count++;
+      }
+    }
+    var avg_dist = total_dist / top_num / 1600;
+    var avg_dur = total_dur / top_num / 3600;
+    console.log("Average Distance: " + avg_dist);
    }
 
