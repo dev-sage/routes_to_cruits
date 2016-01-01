@@ -10,34 +10,38 @@
   var tx_icon = new school_icon({iconSize: [78, 40], iconAnchor: [35, 30], iconUrl: 'my_icons/texas_icon.png'});
 
   /* Creating Map */ 
-    var map = L.map("map", {zoomControl: false}).setView([39.00, -100.50], 5);
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-      attribution: "",
-      maxZoom: 9,
-      id: 'elsage.ni57hacg',
-      accessToken: ki_leaflet
-      }).addTo(map);
+  var map = L.map("map", {zoomControl: false}).setView([39.00, -100.50], 5);
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+              attribution: "",
+              maxZoom: 9,
+              id: 'elsage.ni57hacg',
+              accessToken: ki_leaflet
+              }).addTo(map);
   /*             */ 
 
-    L.marker([35.22, -97.44], {icon: ou_icon}).addTo(map);
-    //L.marker([30.25, -97.75], {icon: tx_icon}).addTo(map);
+  L.marker([35.22, -97.44], {icon: ou_icon}).addTo(map);
+  //L.marker([30.25, -97.75], {icon: tx_icon}).addTo(map);
 
+
+  var data;
+   d3.text('my_data/path_data.csv', function(error, _data){
+             data = d3.csv.parseRows(_data);
+        });
+       
   /* LOADING DATA */ 
-    $.ajax({
-    url: "my_data/path_data.csv",
+  /*$.ajax({
+    url: "my_data/test_data.csv",
     async: false,
     success: function (csvd) {
         data = $.csv2Array(csvd);
     },
     dataType: "text",
     complete: function () {
-        console.log("YOU DID IT!");
+        // call a function on complete 
     }
-    });
+  });*/ 
 
   /* Defining variables */
-  var decoded_path = new Array(data.length);
-  var path_array = new Array(data.length);
   /*              */ 
 
 
@@ -59,6 +63,8 @@
 
     /* Drawing polylines */ 
     function pull_routes(school_str) {
+      var decoded_path = new Array(data.length);
+      var path_array = new Array(data.length);
       clearMap();
       //var school_icon = new school_icon({iconUrl: 'my_icons/ou_icon.png'});
       school_col = "crimson";

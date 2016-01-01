@@ -95,7 +95,7 @@ data <- make_journey(from_cities, my_cities_coded, TRUE)
 
 write.table(data, 
             file = "~/Google Drive/Routes to 'Cruits/routes_to_cruits/my_data/path_data.csv", 
-            row.names = FALSE, sep = ",", col.names = FALSE, append = FALSE)
+            row.names = FALSE, sep = ",", col.names = FALSE, append = TRUE)
 
 # Make Map
 my_map <- get_map(location = "USA", zoom = 4, maptype = "roadmap")
