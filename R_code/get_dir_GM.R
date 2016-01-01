@@ -93,12 +93,11 @@ make_journey <- function(origin, dest_vec, polyline = TRUE) {
 ############################################################
 
 data <- make_journey(from_cities, my_cities_coded, TRUE)
+# ord_data <- data[order(data$V3, data$V4),] # Change to order by Origin and Distance
 
-write.table(data, 
+write.table(ord_data, 
             file = "~/Google Drive/Routes to 'Cruits/routes_to_cruits/my_data/path_data.csv", 
             row.names = FALSE, sep = ",", col.names = FALSE, append = TRUE)
-
-
 
 # Make Map
 my_map <- get_map(location = "USA", zoom = 4, maptype = "roadmap")

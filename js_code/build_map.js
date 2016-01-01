@@ -48,6 +48,7 @@
     function pull_routes(school_str) {
       var decoded_path = new Array(data.length);
       var path_array = new Array(data.length);
+
       clearMap();
       //var school_icon = new school_icon({iconUrl: 'my_icons/ou_icon.png'});
       school_col = "crimson";
@@ -58,10 +59,26 @@
           path_array[i] = new L.Polyline(decoded_path[i].getLatLngs(),
           {snakingSpeed: 800, snakingPause: 0, color: school_col, opacity: 0.75, weight: 1.00});
           path_array[i].addTo(map).snakeIn();
-          //sleep(100);
-      };
+      }
+    } 
 
+     // Drawing 20 closest routes (in terms of duration);
+      var decoded_path2 = new Array(50);
+      var path_array2 = new Array(50);
+      var count = 0;
+      for(i = 0; count < 50; i++) {
+        if(data[i][2] == school_str) {
+          console.log("I'm printing.");
+          decoded_path2[i] = L.Polyline.fromEncoded(data[i][0]);
+          path_array2[i] = new L.Polyline(decoded_path2[i].getLatLngs(),
+          {snakingSpeed: 100, snakingPause: 0, color: "blue", opacity: 1, weight: 3.00});
+          path_array2[i].addTo(map).snakeIn();
+          count++;
+      } 
      }
+   };
+
+   function get_statistics(school_str) {
 
    }
 
