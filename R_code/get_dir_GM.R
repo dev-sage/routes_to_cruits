@@ -3,7 +3,7 @@ library(httr)
 library(ggmap)
 library(dplyr)
 library(bitops)
-
+source("~/Google Drive/kis/keys.R")
 
 # To access the Google Maps Directions API over HTTP, use:
 # http://maps.googleapis.com/maps/api/directions/output?parameters
@@ -12,16 +12,14 @@ library(bitops)
 #   Origin - The address, textual latitude/longitude value, or place ID from which you wish to calculate directions.
 #   Destination -The address, textual latitude/longitude value, or place ID to which you wish to calculate directions.
 #   Key - Your application's API key. This key identifies your application for purposes of quota management. Learn how to get a key.
-key <- "key=AIzaSyDmeWV8qi0l2XEqgJcDkCEtRu8bXr20GMQ"
-key2 <- "&key=AIzaSyBqnFDRUuimty88ZUHE8nAFUTCBr1emwyg"
 api_addy_directions <- "https://maps.googleapis.com/maps/api/directions/json?"
 api_addy_roads <- "https://roads.googleapis.com/v1/snapToRoads?"
 all_data <- data.frame() # Defining a blank dataframe to hold the journey data.
 
-Read in Rivals Data
+# Read in Rivals Data
 rivals_250 <- read.csv("~/Desktop/rivals_250.csv", header = TRUE, stringsAsFactors = FALSE)
 
-Getting the cities into the proper form
+# Getting the cities into the proper form
 my_cities <- vector()[1:nrow(rivals_250)]
 for(i in 1:nrow(rivals_250)) {
   split <- strsplit(rivals_250$Location[i],",")
@@ -32,7 +30,7 @@ for(i in 1:nrow(rivals_250)) {
 
 my_cities_coded <- geocode(my_cities)
 
-To generate the path for the Roads API
+# To generate the path for the Roads API
 gen_path <- function(lats, longs) {
   lats <- as.character(lats)
   longs <- as.character(longs)
@@ -67,11 +65,11 @@ make_journey <- function(origin, dest_vec, polyline = TRUE) {
       
       # Make request
       dir_response <- GET(request)
-      print(dir_response)
+#       print(dir_response)
       
       # Response
       resp_contents <<- content(dir_response)
-      print(resp_contents)
+#       print(resp_contents)
       
       if(!polyline) {
         path <- decodeLine(resp_contents$routes[[1]]$overview_polyline$points)
@@ -93,12 +91,11 @@ make_journey <- function(origin, dest_vec, polyline = TRUE) {
 }
 ############################################################
 
-data <- make_journey(from_cities[1:2,], my_cities_coded[1:2,], TRUE)
-str(resp_contents$routes[[1]]$legs[[1]])
-resp_contents$routes[[1]]$legs[[1]]$distance$value
-resp_contents$routes[[1]]$legs[[1]]$duration$value
+data <- make_journey(from_cities, my_cities_coded, TRUE)
 
-write.table(data, file = "~/Desktop/path_data.csv", row.names = FALSE, sep = ",", col.names = FALSE)
+write.table(data, 
+            file = "~/Google Drive/Routes to 'Cruits/routes_to_cruits/my_data/path_data.csv", 
+            row.names = FALSE, sep = ",", col.names = FALSE, append = FALSE)
 
 # Make Map
 my_map <- get_map(location = "USA", zoom = 4, maptype = "roadmap")
