@@ -28,21 +28,6 @@
              data = d3.csv.parseRows(_data);
         });
        
-  /* LOADING DATA */ 
-  /*$.ajax({
-    url: "my_data/test_data.csv",
-    async: false,
-    success: function (csvd) {
-        data = $.csv2Array(csvd);
-    },
-    dataType: "text",
-    complete: function () {
-        // call a function on complete 
-    }
-  });*/ 
-
-  /* Defining variables */
-  /*              */ 
 
 
   /* This is used to clear the map before polylines are drawn */ 
@@ -58,8 +43,6 @@
          }
       }
     }
-
-    var dc_path;
 
     /* Drawing polylines */ 
     function pull_routes(school_str) {

@@ -52,6 +52,7 @@ from_cities$name <- c("Norman, OK", "Austin, TX", "Tuscaloosa, AL", "Los Angeles
                      "Ann Arbor, MI", "Columbus, OH", "Stanford, CA", "Seattle, WA")
 
 all_trips <- data.frame()
+# Need to handle the case where top recruits are coming from the same city.
 make_journey <- function(origin, dest_vec, polyline = TRUE) {
   for(i in 1:nrow(origin)) {
     
@@ -96,6 +97,8 @@ data <- make_journey(from_cities, my_cities_coded, TRUE)
 write.table(data, 
             file = "~/Google Drive/Routes to 'Cruits/routes_to_cruits/my_data/path_data.csv", 
             row.names = FALSE, sep = ",", col.names = FALSE, append = TRUE)
+
+
 
 # Make Map
 my_map <- get_map(location = "USA", zoom = 4, maptype = "roadmap")
