@@ -20,7 +20,7 @@
   /*             */ 
 
     L.marker([35.22, -97.44], {icon: ou_icon}).addTo(map);
-    L.marker([30.25, -97.75], {icon: tx_icon}).addTo(map);
+    //L.marker([30.25, -97.75], {icon: tx_icon}).addTo(map);
 
   /* LOADING DATA */ 
     $.ajax({
