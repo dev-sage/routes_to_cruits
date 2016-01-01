@@ -12,7 +12,6 @@ source("~/Google Drive/kis/keys.R")
 #   Origin - The address, textual latitude/longitude value, or place ID from which you wish to calculate directions.
 #   Destination -The address, textual latitude/longitude value, or place ID to which you wish to calculate directions.
 #   Key - Your application's API key. This key identifies your application for purposes of quota management. Learn how to get a key.
-
 api_addy_directions <- "https://maps.googleapis.com/maps/api/directions/json?"
 api_addy_roads <- "https://roads.googleapis.com/v1/snapToRoads?"
 all_data <- data.frame() # Defining a blank dataframe to hold the journey data.
