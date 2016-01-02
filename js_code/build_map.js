@@ -1,4 +1,12 @@
+  var school_icon = L.Icon.extend({
+        options: {
+        iconSize:     [45, 45],
+        iconAnchor:   [15, 15],
+        popupAnchor:  [0, 0]
+        }
+      });
 
+  var markers = new L.FeatureGroup();
 
   /* Creating Map */ 
   var map = L.map("map", {zoomControl: false}).setView([39.00, -100.50], 5);
@@ -27,36 +35,30 @@
 
   /* This is used to clear the map before polylines are drawn */ 
     function clearMap() {
-    for(i in map._layers) {
-        if(map._layers[i]._path != undefined) {
-            try {
-                map.removeLayer(map._layers[i]);
-            }
-            catch(e) {
-                console.log("problem with " + e + map._layers[i]);
-            }
-         }
+      markers.clearLayers();
+      for(i in map._layers) {
+          if(map._layers[i]._path != undefined) {
+              try {
+                  map.removeLayer(map._layers[i]);
+             }
+             catch(e) {
+                 console.log("problem with " + e + map._layers[i]);
+             }
+          }
       }
     }
 
 
     /* Drawing polylines */ 
     function pull_routes(school_str) {
+      clearMap();
+
       var decoded_path = new Array(data.length);
       var path_array = new Array(data.length);
 
-      var school_lon, school_lat;
+      var school_lat, my_school_icon;
 
-
-      var school_icon = L.Icon.extend({
-        options: {
-        iconSize:     [45, 45],
-        iconAnchor:   [15, 15],
-        popupAnchor:  [0, 0]
-        }
-      });
-
-      var school_icon = new school_icon({iconUrl: 'my_icons/' + school_str + '_icon.png'});
+      my_school_icon = new school_icon({iconUrl: 'my_icons/' + school_str + '_icon.png'});
 
       // This is a stupid way to do this. Think of a better one.
       var i = 0;
@@ -65,11 +67,12 @@
         i++;
       }
 
-      L.marker([school_data[i][1], school_data[i][0]], {icon: school_icon}).addTo(map);
-
-
-      clearMap();
       school_col = "crimson";
+
+      //L.marker([school_data[i][1], school_data[i][0]], {icon: my_school_icon}).addTo(map);
+      var marker = L.marker([school_data[i][1], school_data[i][0]], {icon: my_school_icon});
+      markers.addLayer(marker);
+      map.addLayer(markers);
 
       for(i = 0; i < data.length; i++) {
         if(data[i][5] == school_str) {
