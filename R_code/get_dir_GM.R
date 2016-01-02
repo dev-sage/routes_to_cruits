@@ -50,6 +50,14 @@ from_cities <- geocode(c("Norman, OK", "Austin, TX", "Tuscaloosa, AL", "Los Ange
                          "Ann Arbor, MI", "Columbus, OH", "Stanford, CA", "Seattle, WA"))
 from_cities$name <- c("Norman, OK", "Austin, TX", "Tuscaloosa, AL", "Los Angeles, CA",
                      "Ann Arbor, MI", "Columbus, OH", "Stanford, CA", "Seattle, WA")
+#
+#
+#
+# ADD NAME TO SPEC! 
+#
+#
+#
+
 
 all_trips <- data.frame()
 # Need to handle the case where top recruits are coming from the same city.

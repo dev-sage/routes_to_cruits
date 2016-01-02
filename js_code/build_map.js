@@ -1,13 +1,4 @@
-  var school_icon = L.Icon.extend({
-    options: {
-        iconSize:     [45, 45],
-        iconAnchor:   [15, 15],
-        popupAnchor:  [0, 0]
-    }
-  });
 
-  var ou_icon = new school_icon({iconUrl: 'my_icons/ou_icon.png'});
-  var tx_icon = new school_icon({iconSize: [78, 40], iconAnchor: [35, 30], iconUrl: 'my_icons/texas_icon.png'});
 
   /* Creating Map */ 
   var map = L.map("map", {zoomControl: false}).setView([39.00, -100.50], 5);
@@ -19,13 +10,17 @@
               }).addTo(map);
   /*             */ 
 
-  L.marker([35.22, -97.44], {icon: ou_icon}).addTo(map);
-  //L.marker([30.25, -97.75], {icon: tx_icon}).addTo(map);
-
+  document.getElementById("header").innerHTML = ("Pick a School Below");
 
   var data;
    d3.text('my_data/path_data.csv', function(error, _data){
              data = d3.csv.parseRows(_data);
+        });
+
+   var school_data;
+   d3.text('my_data/school_data.csv', function(error, _data){
+             school_data = d3.csv.parseRows(_data);
+             console.log("Finished loading!")
         });
        
 
@@ -44,17 +39,40 @@
       }
     }
 
+
     /* Drawing polylines */ 
     function pull_routes(school_str) {
       var decoded_path = new Array(data.length);
       var path_array = new Array(data.length);
 
+      var school_lon, school_lat;
+
+
+      var school_icon = L.Icon.extend({
+        options: {
+        iconSize:     [45, 45],
+        iconAnchor:   [15, 15],
+        popupAnchor:  [0, 0]
+        }
+      });
+
+      var school_icon = new school_icon({iconUrl: 'my_icons/' + school_str + '_icon.png'});
+
+      // This is a stupid way to do this. Think of a better one.
+      var i = 0;
+      while(i < school_data.length) {
+        if(school_data[i][3] == school_str) break;
+        i++;
+      }
+
+      L.marker([school_data[i][1], school_data[i][0]], {icon: school_icon}).addTo(map);
+
+
       clearMap();
-      //var school_icon = new school_icon({iconUrl: 'my_icons/ou_icon.png'});
       school_col = "crimson";
 
       for(i = 0; i < data.length; i++) {
-        if(data[i][2] == school_str) {
+        if(data[i][5] == school_str) {
           decoded_path[i] = L.Polyline.fromEncoded(data[i][0]);
           path_array[i] = new L.Polyline(decoded_path[i].getLatLngs(),
           {snakingSpeed: 800, snakingPause: 0, color: school_col, opacity: 0.75, weight: 1.00});
@@ -67,7 +85,7 @@
       var path_array2 = new Array(50);
       var count = 0;
       for(i = 0; count < 50; i++) {
-        if(data[i][2] == school_str) {
+        if(data[i][5] == school_str) {
           console.log("I'm printing.");
           decoded_path2[i] = L.Polyline.fromEncoded(data[i][0]);
           path_array2[i] = new L.Polyline(decoded_path2[i].getLatLngs(),
@@ -78,22 +96,34 @@
      }
 
       get_statistics_50(school_str);
-   };
+   }
+
+   function roundr(value, decimals) {
+    return Number(Math.round(value + 'e' + decimals) + "e-" + decimals);
+   }
 
    function get_statistics_50(school_str) {
     
     var count = total_dist = total_dur = 0;
     var top_num = 50;
-
     for(i = 0; count < top_num; i++) {
-      if(data[i][2] == school_str) {
+      if(data[i][5] == school_str) {
         total_dist += parseInt(data[i][3])  ;
         total_dur += parseInt(data[i][4]);
         count++;
       }
     }
-    var avg_dist = total_dist / top_num / 1600;
+
+    // Calculate output variables for display on the overlay div.
+    var avg_dist = total_dist / top_num * 0.00062137;
     var avg_dur = total_dur / top_num / 3600;
     console.log("Average Distance: " + avg_dist);
+
+    document.getElementById("header").innerHTML = (school_str);
+    document.getElementById("avg_travel_time").innerHTML = ("Average Travel Time: " + roundr(avg_dur, 2) + " Hours");
+    document.getElementById("avg_dist").innerHTML = ("Average Distance: " + roundr(avg_dist, 2) + " Miles");
+
    }
+
+
 

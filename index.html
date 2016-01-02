@@ -13,7 +13,7 @@
 
     #map
     {
-      height: 700px; 
+      height: 100%; 
       width: 100%;
       width: 100vw; 
       margin-top: 10px;
@@ -70,50 +70,46 @@
 <body>
 
   <center><div id = "map"></div></center>
-
-  <script type = "text/javascript" src = "kis/kis.js"></script>
-  <script type = "text/javascript" src = "js_code/build_map.js"></script>
   
   <div id = "floater">
-    <h2 id = "stat_header">University of Oklahoma</h2>
-    <h4 id = "median_travel_time"></h4>
-    <h4 id = "num_recruits_rad"></h4>
-    <h4 id = "2015_rank"></h4>
-    <h4 id = "median_travel_time"></h4>
-    <p> Enlightening discussion of school's recruiting prospects goes here.
-        Prepare to be amazed, because it's probably going to be amazing and
-        blow your socks off. 
-        <br>
-        <br>
-        I know the CSS sucks, but it's going to get better.
+    <h2 id = "header"></h2>
+    <h4> (Top-50 Recruit Statistics) </h4>
+    <h4 id = "avg_travel_time"></h4>
+    <h4 id = "avg_dist"></h4>
+    <p> These are the average travel times and averages distances to the closest top 50 recruits from
+        a given school. Also, the number of top recruits that are within 100 miles driving from the school are included.
+        
     </p>
   </div>
 
-  <script id = "output" src = "js_code/stat_output.js"> </script>
+  <script type = "text/javascript" src = "kis/kis.js"></script>
+  <script type = "text/javascript" src = "js_code/build_map.js"></script>
+
+  <!--<script id = "output" src = "js_code/stat_output.js"> </script> -->
 
   <div id = "drop_down">
     <select onchange = "pull_routes(this.value)" style = "width: 293px; padding: 0px; font-size: 24px">
       <option value = "">Please select a school: </option>
-      <option value = "Norman, OK"> University of Oklahoma </option>
-      <option value = "Tuscaloosa, AL"> University of Alabama </option>
-      <option value = "Austin, TX"> University of Texas </option>
-      <option value = "Seattle, WA">University of Washington </option>
-      <option value = "Los Angeles, CA">University of Southern California </option>
-      <option value = "Columbus, OH">Ohio State University </option>
-      <option value = "Stanford, CA">Stanford University</option>
-      <option value = "Ann Arbor, MI">University of Michigan</option>
+      <option value = "University of Oklahoma"> University of Oklahoma </option>
+      <option value = "University of Alabama"> University of Alabama </option>
+      <option value = "University of Texas"> University of Texas </option>
+      <option value = "University of Washington">University of Washington </option>
+      <option value = "University of Southern California">University of Southern California </option>
+      <option value = "Ohio State University">Ohio State University </option>
+      <option value = "Stanford University">Stanford University</option>
+      <option value = "University of Michigan">University of Michigan</option>
     </select>
   </div>
 
     <!-- <div id = "top_right" align = "right"><h2>Routes to the Recruits</h2></div> -->
 
-  <p id = "bodyp"><h1 id = "bodyp">Discussion Starts Here </h1></p>
+  <!-- <p id = "bodyp"><h1 id = "bodyp">Discussion Starts Here </h1></p>
   <p id = "bodyp"> "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   <br>
   <br>
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   <br>
-  </p>
+  </p> -->
 
 
 </body>
