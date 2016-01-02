@@ -56,7 +56,7 @@
       var decoded_path = new Array(data.length);
       var path_array = new Array(data.length);
 
-      var school_lat, my_school_icon;
+      var school_lat, my_school_icon, school_col1, school_col2;
 
       my_school_icon = new school_icon({iconUrl: 'my_icons/' + school_str + '_icon.png'});
 
@@ -67,7 +67,9 @@
         i++;
       }
 
-      school_col = "crimson";
+      school_col1 = school_data[i][4];
+      school_col2 = school_data[i][5];
+
 
       //L.marker([school_data[i][1], school_data[i][0]], {icon: my_school_icon}).addTo(map);
       var marker = L.marker([school_data[i][1], school_data[i][0]], {icon: my_school_icon});
@@ -78,7 +80,7 @@
         if(data[i][5] == school_str) {
           decoded_path[i] = L.Polyline.fromEncoded(data[i][0]);
           path_array[i] = new L.Polyline(decoded_path[i].getLatLngs(),
-          {snakingSpeed: 800, snakingPause: 0, color: school_col, opacity: 0.75, weight: 1.00});
+          {snakingSpeed: 800, snakingPause: 0, color: school_col1, opacity: 0.75, weight: 1.00});
           path_array[i].addTo(map).snakeIn();
       }
     } 
@@ -92,7 +94,7 @@
           console.log("I'm printing.");
           decoded_path2[i] = L.Polyline.fromEncoded(data[i][0]);
           path_array2[i] = new L.Polyline(decoded_path2[i].getLatLngs(),
-          {snakingSpeed: 100, snakingPause: 0, color: "blue", opacity: 1, weight: 3.00});
+          {snakingSpeed: 100, snakingPause: 0, color: school_col2, opacity: 1, weight: 3.00});
           path_array2[i].addTo(map).snakeIn();
           count++;
       } 
