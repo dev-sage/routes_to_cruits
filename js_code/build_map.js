@@ -98,7 +98,7 @@
       }
     } 
 
-     // Drawing 20 closest routes (in terms of duration);
+     // Drawing 50 closest routes (in terms of duration);
       var decoded_path2 = new Array(50);
       var path_array2 = new Array(50);
       var count = 0;
@@ -108,7 +108,7 @@
 
           if(decoded_path[i].getLatLngs().length > 1) {
              path_array2[i] = new L.Polyline(decoded_path2[i].getLatLngs(),
-            {snakingSpeed: 200, snakingPause: 0, color: school_col2, opacity: 1, weight: 2.75});
+            {snakingSpeed: 200, snakingPause: 0, color: school_col2, opacity: 0.80, weight: 2.75});
            } 
 
            else {
@@ -118,7 +118,7 @@
             lat_lng = [latlng1, latlng2];
             
             path_array2[i] = new L.Polyline(lat_lng,
-            {snakingSpeed: 200, snakingPause: 0, color: school_col2, opacity: 1, weight: 2.75});
+            {snakingSpeed: 200, snakingPause: 0, color: school_col2, opacity: 0.80, weight: 2.75});
            }
 
           path_array2[i].addTo(map).snakeIn();
@@ -139,7 +139,7 @@
     var top_num = 50;
     for(i = 0; count < top_num; i++) {
       if(data[i][5] == school_str) {
-        total_dist += parseInt(data[i][3])  ;
+        total_dist += parseInt(data[i][3]);
         total_dur += parseInt(data[i][4]);
         count++;
       }
