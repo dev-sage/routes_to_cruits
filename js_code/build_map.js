@@ -23,12 +23,13 @@
   var data;
    d3.text('my_data/path_data.csv', function(error, _data){
              data = d3.csv.parseRows(_data);
+             console.log("Finished loading recruit data.")
         });
 
    var school_data;
    d3.text('my_data/school_data.csv', function(error, _data){
              school_data = d3.csv.parseRows(_data);
-             console.log("Finished loading!")
+             console.log("Finished loading school data")
         });
        
 
@@ -61,26 +62,38 @@
       my_school_icon = new school_icon({iconUrl: 'my_icons/' + school_str + '_icon.png'});
 
       // This is a stupid way to do this. Think of a better one.
-      var i = 0;
-      while(i < school_data.length) {
-        if(school_data[i][3] == school_str) break;
-        i++;
+      var p = 0;
+      while(p < school_data.length) {
+        if(school_data[p][3] == school_str) break;
+        p++;
       }
 
-      school_col1 = school_data[i][4];
-      school_col2 = school_data[i][5];
+      school_col1 = school_data[p][4];
+      school_col2 = school_data[p][5];
 
-
-      //L.marker([school_data[i][1], school_data[i][0]], {icon: my_school_icon}).addTo(map);
-      var marker = L.marker([school_data[i][1], school_data[i][0]], {icon: my_school_icon});
+      var marker = L.marker([school_data[p][1], school_data[p][0]], {icon: my_school_icon});
       markers.addLayer(marker);
       map.addLayer(markers);
 
       for(i = 0; i < data.length; i++) {
         if(data[i][5] == school_str) {
           decoded_path[i] = L.Polyline.fromEncoded(data[i][0]);
-          path_array[i] = new L.Polyline(decoded_path[i].getLatLngs(),
-          {snakingSpeed: 800, snakingPause: 0, color: school_col1, opacity: 0.75, weight: 1.00});
+
+          if(decoded_path[i].getLatLngs().length > 1) {
+             path_array[i] = new L.Polyline(decoded_path[i].getLatLngs(),
+            {snakingSpeed: 800, snakingPause: 0, color: school_col1, opacity: 0.75, weight: 1.00});
+           } 
+
+           else {
+            var latlng1, latlng2, lat_lng;
+            latlng1 = [decoded_path[i].getLatLngs()[0].lat, decoded_path[i].getLatLngs()[0].lng];
+            latlng2 = [parseFloat(school_data[p][1]) + 0.0002, parseFloat(school_data[p][0]) + 0.0002];
+            lat_lng = [latlng1, latlng2];
+
+            path_array[i] = new L.Polyline(lat_lng,
+            {snakingSpeed: 800, snakingPause: 0, color: school_col1, opacity: 0.75, weight: 1.00});
+           }
+
           path_array[i].addTo(map).snakeIn();
       }
     } 
@@ -91,10 +104,23 @@
       var count = 0;
       for(i = 0; count < 50; i++) {
         if(data[i][5] == school_str) {
-          console.log("I'm printing.");
           decoded_path2[i] = L.Polyline.fromEncoded(data[i][0]);
-          path_array2[i] = new L.Polyline(decoded_path2[i].getLatLngs(),
-          {snakingSpeed: 100, snakingPause: 0, color: school_col2, opacity: 1, weight: 3.00});
+
+          if(decoded_path[i].getLatLngs().length > 1) {
+             path_array2[i] = new L.Polyline(decoded_path2[i].getLatLngs(),
+            {snakingSpeed: 200, snakingPause: 0, color: school_col2, opacity: 1, weight: 2.75});
+           } 
+
+           else {
+            var latlng1, latlng2, lat_lng;
+            latlng1 = [decoded_path2[i].getLatLngs()[0].lat, decoded_path2[i].getLatLngs()[0].lng];
+            latlng2 = [parseFloat(school_data[p][1]) + 0.0002, parseFloat(school_data[p][0]) + 0.0002];
+            lat_lng = [latlng1, latlng2];
+            
+            path_array2[i] = new L.Polyline(lat_lng,
+            {snakingSpeed: 200, snakingPause: 0, color: school_col2, opacity: 1, weight: 2.75});
+           }
+
           path_array2[i].addTo(map).snakeIn();
           count++;
       } 
@@ -122,7 +148,6 @@
     // Calculate output variables for display on the overlay div.
     var avg_dist = total_dist / top_num * 0.00062137;
     var avg_dur = total_dur / top_num / 3600;
-    console.log("Average Distance: " + avg_dist);
 
     document.getElementById("header").innerHTML = (school_str);
     document.getElementById("avg_travel_time").innerHTML = ("Average Travel Time: " + roundr(avg_dur, 2) + " Hours");
