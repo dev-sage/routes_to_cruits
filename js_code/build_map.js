@@ -23,14 +23,36 @@
   var data;
    d3.text('my_data/path_data.csv', function(error, _data){
              data = d3.csv.parseRows(_data);
-             console.log("Finished loading recruit data.")
+             console.log("Finished loading path data.")
         });
 
    var school_data;
    d3.text('my_data/school_data.csv', function(error, _data){
              school_data = d3.csv.parseRows(_data);
-             console.log("Finished loading school data")
+             console.log("Finished loading school data.")
         });
+
+   var recruit_data;
+   d3.text('my_data/all_recruits.csv', function(error, _data) {
+            recruit_data = d3.csv.parseRows(_data);
+            console.log("Finished loading recruit data.")
+            coords = convert_data(); // Me so crazy.
+            draw_heatmap(coords);
+        });
+
+  
+   function convert_data() {
+     var coords = Array(recruit_data.length);
+     for(i = 0; i < recruit_data.length; i++) {
+      coords[i] = [parseFloat(recruit_data[i][8]), parseFloat(recruit_data[i][7])];
+     }
+     return(coords);
+   }
+
+   var heat;
+   function draw_heatmap(coords) {
+    heat = L.heatLayer(coords, max = 10).addTo(map);
+   }
        
 
 

@@ -53,7 +53,7 @@ from_cities$name <- c("Norman, OK", "Austin, TX", "Tuscaloosa, AL", "Los Angeles
 #
 #
 #
-# ADD NAME TO SPEC! 
+# ADD SCHOOL NAME TO SPEC! 
 #
 #
 #
