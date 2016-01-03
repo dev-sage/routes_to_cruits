@@ -38,7 +38,6 @@
             console.log("Finished loading recruit data.")
             coords = convert_data(); // Me so crazy.
         });
-
   
    function convert_data() {
      var coords = Array(recruit_data.length);
@@ -48,15 +47,15 @@
      return(coords);
    }
 
-   var heat, points, heat_markers = new L.FeatureGroup(), heat_state = false;
+   var heat, points, map_overlay = new L.FeatureGroup(), heat_state = false;
    function draw_heatmap(coords) {
     if(heat_state == false) {
       heat = L.heatLayer(coords, {radius: 13, blur: 25});
-      heat_markers.addLayer(heat);
-      map.addLayer(heat_markers);
+      map_overlay.addLayer(heat);
+      map.addLayer(map_overlay);
       heat_state = true;
       document.getElementById("heat_button").value = ("Remove 10-Year Heat Map");
-    } else { clear_heatmap(); }
+    } else { clear_overlay(); }
    }
        
   /* This is used to clear the map before polylines are drawn */ 
@@ -74,11 +73,23 @@
       }
     }
 
-    function clear_heatmap() {
-      heat_markers.clearLayers();
-      heat_state = false;
+    function clear_overlay() {
+      map_overlay.clearLayers();
+      heat_state = chloro_state = false;
       document.getElementById("heat_button").value = ("10-Year Heat Map");
+      document.getElementById("chl_button").value = ("Chloropleth Map");
     }
+
+    var chloro_state = false;
+    function draw_chloropleth(coords) {
+    if(chloro_state == false) {
+      var chloro = L.geoJson(statesData);
+      map_overlay.addLayer(chloro);
+      map.addLayer(map_overlay);
+      chloro_state = true;
+      document.getElementById("chl_button").value = ("Remove Chloropleth Map");
+    } else { clear_overlay(); }
+   }
 
 
     /* Drawing polylines */ 

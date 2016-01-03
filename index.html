@@ -81,6 +81,15 @@
       left: 0%;
       height: 100px;
     }
+    
+    #chl_button 
+    {
+      position: absolute;
+      top: 64%;
+      left: 0%;
+      height: 100px;
+    }
+
 
   </style>
 </head>
@@ -100,6 +109,7 @@
 
   <script type = "text/javascript" src = "kis/kis.js"></script>
   <script type = "text/javascript" src = "js_code/build_map.js"></script>
+  <script type = "text/javascript" src = "my_data/us_counties.js"></script>
 
   <!--<script id = "output" src = "js_code/stat_output.js"> </script> -->
 
@@ -119,6 +129,7 @@
 
   <div>
   <input type = "button" id = "heat_button" onclick="draw_heatmap(coords)" style = "width:; height: 50px; font-size: 21px" value = "10-Year Heat Map"/>
+  <input type = "button" id = "chl_button" onclick="draw_chloropleth(statesData)" style = "width:; height: 50px; font-size: 21px" value = "Draw Chloropleth"/>
   </div>
 
 
