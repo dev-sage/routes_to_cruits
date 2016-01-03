@@ -67,6 +67,21 @@
       float: right;
     }
 
+    #heat_map 
+    {
+      position: absolute;
+      top: 75%;
+      left: 0%;
+    }
+
+    #heat_button 
+    {
+      position: absolute;
+      top: 60%;
+      left: 0%;
+      height: 100px;
+    }
+
   </style>
 </head>
 <body>
@@ -75,7 +90,7 @@
   
   <div id = "floater">
     <h2 id = "header"></h2>
-    <h3> (Top-50 Recruit Statistics) </h3>
+    <h3> (2016 Top-50 Recruit Statistics) </h3>
     <h3 id = "avg_travel_time"></h3>
     <h3 id = "avg_dist"></h3>
     <p> These are the average travel times and averages distances to the closest top 50 recruits for
@@ -100,6 +115,10 @@
       <option value = "Stanford University">Stanford University</option>
       <option value = "University of Michigan">University of Michigan</option>
     </select>
+  </div>
+
+  <div>
+  <input type = "button" id = "heat_button" onclick="draw_heatmap(coords)" style = "width:; height: 50px; font-size: 21px" value = "10-Year Heat Map"/>
   </div>
 
 

@@ -32,12 +32,11 @@
              console.log("Finished loading school data.")
         });
 
-   var recruit_data;
+   var recruit_data, coords;
    d3.text('my_data/all_recruits.csv', function(error, _data) {
             recruit_data = d3.csv.parseRows(_data);
             console.log("Finished loading recruit data.")
             coords = convert_data(); // Me so crazy.
-            draw_heatmap(coords);
         });
 
   
@@ -49,13 +48,17 @@
      return(coords);
    }
 
-   var heat;
+   var heat, points, heat_markers = new L.FeatureGroup(), heat_state = false;
    function draw_heatmap(coords) {
-    heat = L.heatLayer(coords, max = 10).addTo(map);
+    if(heat_state == false) {
+      heat = L.heatLayer(coords, {radius: 13, blur: 25});
+      heat_markers.addLayer(heat);
+      map.addLayer(heat_markers);
+      heat_state = true;
+      document.getElementById("heat_button").value = ("Remove 10-Year Heat Map");
+    } else { clear_heatmap(); }
    }
        
-
-
   /* This is used to clear the map before polylines are drawn */ 
     function clearMap() {
       markers.clearLayers();
@@ -69,6 +72,12 @@
              }
           }
       }
+    }
+
+    function clear_heatmap() {
+      heat_markers.clearLayers();
+      heat_state = false;
+      document.getElementById("heat_button").value = ("10-Year Heat Map");
     }
 
 
@@ -156,7 +165,6 @@
    }
 
    function get_statistics_50(school_str) {
-    
     var count = total_dist = total_dur = 0;
     var top_num = 50;
     for(i = 0; count < top_num; i++) {
