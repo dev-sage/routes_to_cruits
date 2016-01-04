@@ -33,9 +33,16 @@
         });
 
    var recruit_data, coords;
-   d3.text('my_data/all_recruits.csv', function(error, _data) {
+   d3.text('my_data/all_recruits_orig.csv', function(error, _data) {
             recruit_data = d3.csv.parseRows(_data);
             console.log("Finished loading recruit data.")
+            coords = convert_data(); // Me so crazy.
+        });
+
+  var recruit_data2, coords;
+   d3.text('my_data/all_recruits.csv', function(error, _data) {
+            recruit_data2 = d3.csv.parseRows(_data);
+            console.log("Finished loading recruit2 data.")
             coords = convert_data(); // Me so crazy.
         });
   
@@ -80,10 +87,30 @@
       document.getElementById("chl_button").value = ("Chloropleth Map");
     }
 
+   function getColor(d) {
+    return d > 7 ? '#d73027' :
+           d > 6  ? '#f46d43' :
+           d > 5  ? '#fdae61' :
+           d > 4  ? '#fee08b' :
+           d > 3   ? '#d9ef8b' :
+           d > 2   ? '#a6d96a' :
+           d > 1   ? '#66bd63' :
+                      '#1a9850';
+}
+
+    function style(feature) {
+      return {
+        weight: 0.5,
+        color: 'black',
+        fillOpacity: 0.50,
+        fillColor: getColor(feature.properties.count)
+      };
+    }
+
     var chloro_state = false;
     function draw_chloropleth(coords) {
     if(chloro_state == false) {
-      var chloro = L.geoJson(statesData);
+      var chloro = L.geoJson(statesData, {style: style});
       map_overlay.addLayer(chloro);
       map.addLayer(map_overlay);
       chloro_state = true;

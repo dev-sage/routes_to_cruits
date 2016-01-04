@@ -11,6 +11,7 @@
   <script src = "js_dep/jquery-csv.js"></script>
   <script src = "js_dep/simpleheat.js"></script>
   <script src = "js_dep/HeatLayer.js"></script>
+  <script src = "js_code/geoParse.js"></script>
   <style>
 
     #map
@@ -40,7 +41,7 @@
     #floater
     {
       position: absolute; 
-      top: 100px; 
+      top: 10%; 
       margin-left: 0px; 
       background-color: white; 
       opacity: 0.75;  
@@ -70,7 +71,7 @@
     #heat_map 
     {
       position: absolute;
-      top: 75%;
+      top: 90%;
       left: 0%;
     }
 
@@ -86,6 +87,14 @@
     {
       position: absolute;
       top: 64%;
+      left: 0%;
+      height: 100px;
+    }
+
+     #data_button
+    {
+      position: absolute;
+      top: 67%;
       left: 0%;
       height: 100px;
     }
@@ -108,8 +117,8 @@
   </div>
 
   <script type = "text/javascript" src = "kis/kis.js"></script>
-  <script type = "text/javascript" src = "js_code/build_map.js"></script>
   <script type = "text/javascript" src = "my_data/us_counties.js"></script>
+    <script type = "text/javascript" src = "js_code/build_map.js"></script>
 
   <!--<script id = "output" src = "js_code/stat_output.js"> </script> -->
 
@@ -128,8 +137,9 @@
   </div>
 
   <div>
-  <input type = "button" id = "heat_button" onclick="draw_heatmap(coords)" style = "width:; height: 50px; font-size: 21px" value = "10-Year Heat Map"/>
-  <input type = "button" id = "chl_button" onclick="draw_chloropleth(statesData)" style = "width:; height: 50px; font-size: 21px" value = "Draw Chloropleth"/>
+  <input type = "button" id = "heat_button" onclick="draw_heatmap(coords)" style = "font-size: 72px" value = "10-Year Heat Map"/>
+  <input type = "button" id = "chl_button" onclick="draw_chloropleth(statesData)" style = "font-size: 21px" value = "Draw Chloropleth"/>
+  <input type = "button" id = "data_button" onclick="add_to_geo()" style = "font-size: 21px" value = "Run Data Manip."/>
   </div>
 
 

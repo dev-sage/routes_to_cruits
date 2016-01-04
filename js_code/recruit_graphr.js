@@ -1,9 +1,10 @@
-<script>
+
 	// Import the dataset, then build to the data.
-		d3.csv("college_players.csv", function(dataset) {
+		d3.csv("my_data/all_recruits.csv", function(dataset) {
 			dataset.forEach(function(row) {
-				row.salary = +row.Salary,
-				row.avgpts = +row.AvgPointsPerGame
+				row.wt = +row.Wt,
+
+
 			});
 
 			var moused = false;
@@ -173,39 +174,6 @@
 					  /*rect_tip.attr("opacity", 0);*/ 
 				});
 
-
-
-			quad1.attr({
-				x: min_x_val - xadjust,
-				y: 0 - yadjust,
-				width: max_x_val / 2,
-				height: (max_y_val) / 2,
-				fill: "green"
-			});
-
-			quad2.attr({
-				x: max_x_val / 2 + min_x_val - xadjust,
-				y: 0 - yadjust,
-				width: (max_x_val) / 2,
-				height: (max_y_val) / 2,
-				fill: "yellow"
-			});
-
-			quad3.attr({
-				x: min_x_val - xadjust,
-				y: (max_y_val) / 2 - yadjust,
-				width: max_x_val / 2,
-				height: (max_y_val / 2),
-				fill: "yellow"
-			});
-
-
-			quad4.attr({
-				x: max_x_val / 2 + min_x_val - xadjust,
-				y: (max_y_val) / 2 - yadjust,
-				width: (max_x_val) / 2,
-				height: (max_y_val) / 2,
-				fill: "red"
 			}); 
 
 			svg.append("g")
@@ -238,4 +206,3 @@
 				.text("Average PPG");
 
 		});
-</script>
