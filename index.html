@@ -80,23 +80,31 @@
       position: absolute;
       top: 60%;
       left: 0%;
-      height: 100px;
+      height: 35px;
+      background-color: red;
+      opacity: 0.5;
+      width: 200px;
+      text: green;
     }
     
     #chl_button 
     {
       position: absolute;
-      top: 64%;
+      top: 65%;
       left: 0%;
-      height: 100px;
+      height: 35px;
     }
 
      #data_button
     {
       position: absolute;
-      top: 67%;
+      top: 70%;
       left: 0%;
-      height: 100px;
+      height: 35px;
+    }
+
+    textarea:focus, input:focus{
+    outline: none;
     }
 
 
@@ -137,9 +145,9 @@
   </div>
 
   <div>
-  <input type = "button" id = "heat_button" onclick="draw_heatmap(coords)" style = "font-size: 72px" value = "10-Year Heat Map"/>
-  <input type = "button" id = "chl_button" onclick="draw_chloropleth(statesData)" style = "font-size: 21px" value = "Draw Chloropleth"/>
-  <input type = "button" id = "data_button" onclick="add_to_geo()" style = "font-size: 21px" value = "Run Data Manip."/>
+  <input type = "text" id = "heat_button" onclick="draw_heatmap(coords);change_color()" style = "font-size: 21px;" value = " 10-Year Heat Map" readonly/>
+  <!--<input type = "text" id = "chl_button" onclick="draw_chloropleth(statesData)" style = "font-size: 21px" value = "Draw Chloropleth" readonly/>
+  <input type = "text" id = "data_button" onclick="add_to_geo()" style = "font-size: 21px" value = "Run Data Manip." readonly/> -->
   </div>
 
 

@@ -33,23 +33,32 @@
         });
 
    var recruit_data, coords;
-   d3.text('my_data/all_recruits_orig.csv', function(error, _data) {
+   d3.text('my_data/recruit_loc_data.csv', function(error, _data) {
             recruit_data = d3.csv.parseRows(_data);
             console.log("Finished loading recruit data.")
             coords = convert_data(); // Me so crazy.
+   			test_coords(coords);
         });
 
-  var recruit_data2, coords;
+   function test_coords(coords) {
+   	for(i = 0; i<coords.length; i++) {
+   		if(isNaN(coords[i][0]) == true || isNaN(coords[i][1] == true )) {
+   			console.log(i + " is NaN.");
+   		}
+   	}
+   }
+
+  /*var recruit_data2, coords;
    d3.text('my_data/all_recruits.csv', function(error, _data) {
             recruit_data2 = d3.csv.parseRows(_data);
             console.log("Finished loading recruit2 data.")
             coords = convert_data(); // Me so crazy.
-        });
+        }); */ 
   
    function convert_data() {
      var coords = Array(recruit_data.length);
      for(i = 0; i < recruit_data.length; i++) {
-      coords[i] = [parseFloat(recruit_data[i][8]), parseFloat(recruit_data[i][7])];
+      coords[i] = [parseFloat(recruit_data[i][1]), parseFloat(recruit_data[i][2])];
      }
      return(coords);
    }
@@ -61,7 +70,7 @@
       map_overlay.addLayer(heat);
       map.addLayer(map_overlay);
       heat_state = true;
-      document.getElementById("heat_button").value = ("Remove 10-Year Heat Map");
+      //document.getElementById("heat_button").value = ("Remove 10-Year Heat Map");
     } else { clear_overlay(); }
    }
        
@@ -83,10 +92,10 @@
     function clear_overlay() {
       map_overlay.clearLayers();
       heat_state = chloro_state = false;
-      document.getElementById("heat_button").value = ("10-Year Heat Map");
-      document.getElementById("chl_button").value = ("Chloropleth Map");
+      document.getElementById("heat_button").value = (" 10-Year Heat Map");
+      //document.getElementById("chl_button").value = ("Chloropleth Map");
     }
-
+/*
    function getColor(d) {
     return d > 7 ? '#d73027' :
            d > 6  ? '#f46d43' :
@@ -102,7 +111,7 @@
       return {
         weight: 0.5,
         color: 'black',
-        fillOpacity: 0.50,
+        fillOpacity: 0.65,
         fillColor: getColor(feature.properties.count)
       };
     }
@@ -116,7 +125,7 @@
       chloro_state = true;
       document.getElementById("chl_button").value = ("Remove Chloropleth Map");
     } else { clear_overlay(); }
-   }
+   } */ 
 
 
     /* Drawing polylines */ 
@@ -213,6 +222,7 @@
       }
     }
 
+
     // Calculate output variables for display on the overlay div.
     var avg_dist = total_dist / top_num * 0.00062137;
     var avg_dur = total_dur / top_num / 3600;
@@ -222,6 +232,26 @@
     document.getElementById("avg_dist").innerHTML = ("Average Distance: " + roundr(avg_dist, 2) + " Miles");
 
    }
+
+   	
+    function change_color() {
+    	var my_elem = document.getElementById("heat_button");
+    	if(heat_state) {
+    		my_elem.style.background = "green";
+    	} else {
+    		my_elem.style.background = "red";
+    	}
+    	
+    }
+
+   $(document).ready(function() {
+   	$(id = heat_button).mouseenter(function() {
+   		$(id = heat_button).fadeTo('fast', 0.85);
+   	});
+   	$(id = heat_button).mouseleave(function() {
+   		$(id = heat_button).fadeTo('slow', 0.50);
+   	});
+   });
 
 
 
